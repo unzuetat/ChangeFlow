@@ -149,4 +149,4 @@ MIT
 
 ## Author
 
-Built by [Klaus](https://github.com/unzuetat) — IT Project Manager & PMO (PMP®, PRINCE2®) exploring the intersection of multi-methodology governance and AI augmentation.
+Built by [Unzuetat](https://github.com/unzuetat) — IT Project Manager & PMO (PMP®, PRINCE2®) exploring the intersection of multi-methodology governance and AI augmentation.
