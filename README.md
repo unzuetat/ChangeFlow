@@ -36,6 +36,7 @@ ChangeFlow is a **universal change governance framework** with a configurable me
 - **Cross-domain dependency awareness** — project changes assessed for operational impact and vice versa, as a mandatory gate
 - **Dual approval for cross-domain changes** — both project and operational authorities must approve
 - **Unified post-change review** — merging project lessons and operational PIR into one activity
+- **Governance Translator** — a built-in tool (⌘K) that works two ways: describe a problem in plain language and get official terms across all frameworks, or enter a term from any framework and see its equivalents in all others. Like Google Translate for governance methodology.
 - **AI augmentation (optional)** — classification suggestions, impact prediction, pattern detection. Always as recommendation, never as decision. Full rule-based fallback.
 
 ## Live Demo
