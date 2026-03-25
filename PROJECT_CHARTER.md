@@ -1,16 +1,20 @@
 # ChangeFlow — Project Charter
 
-> **AI-Augmented Change Governance Framework for ITIL/PRINCE2 Environments**
+> **Configurable Change Governance Framework for Multi-Methodology IT Environments**
+>
+> Supporting PRINCE2, PMI/PMBOK, and ITIL 4 — individually or combined
 
 ---
 
 ## 1. Project Vision
 
-Organizations running hybrid ITIL/PRINCE2 methodologies face a persistent gap: **change management lives in two disconnected worlds.** ITIL manages operational changes (RFCs, CAB approvals, deployment windows). PRINCE2 manages project-level changes (Issue Reports, Change Authority decisions, impact on Business Case). In practice, these processes run in parallel silos, creating blind spots, duplicated effort, and governance risk — especially in regulated or semi-public environments where auditability is non-negotiable.
+Every IT organization manages change. But the *way* they manage it depends on which methodology they've adopted — PRINCE2, PMI/PMBOK, ITIL, or (very commonly) a hybrid of two or more. Each framework has its own vocabulary, roles, artifacts, and processes for handling change. And in most organizations, **the project side and the operations side speak different languages**, even when they're managing the same change.
 
-**ChangeFlow** bridges this gap with a unified change governance framework, demonstrated through a functional web application. It models the full lifecycle of a change — from initial request through classification, impact assessment, approval workflow, implementation tracking, and post-implementation review — with the ITIL↔PRINCE2 integration baked into the process design, not bolted on.
+**ChangeFlow** solves this with a different approach: instead of building a governance model locked to one framework, it provides a **universal change governance engine** that speaks multiple methodological languages. The core lifecycle is framework-agnostic — it captures the shared logic that all frameworks agree on. On top of that core, you configure which methodology your organization uses, and the system presents the right vocabulary, roles, artifacts, and workflows.
 
-The "AI-Augmented" layer is deliberate and bounded: AI assists with change classification, impact prediction, and pattern detection from historical data. Humans retain all decision authority. The framework is designed for environments where AI can support but never replace governance.
+Think of it as a governance model with a language selector. The destination is the same (well-governed change). The signs along the road speak your language.
+
+**The "AI-Augmented" layer** is deliberate and bounded: AI assists with classification, impact prediction, and pattern detection. Humans retain all decision authority. The framework works fully without AI — augmentation is optional, not required.
 
 ---
 
@@ -18,122 +22,166 @@ The "AI-Augmented" layer is deliberate and bounded: AI assists with change class
 
 | Symptom | Root Cause |
 |---|---|
-| A project change impacts live services but Operations learns about it at deployment | No systematic link between PRINCE2 Issue Register and ITIL Change Schedule |
-| An infrastructure RFC breaks a project timeline but the PM finds out late | Change Advisory Board (CAB) has no visibility into active project dependencies |
-| Lessons from past changes aren't applied to new ones | Lessons Learned and PIR (Post-Implementation Review) data exists but isn't searchable or connected |
-| Change classification is inconsistent across teams | No shared taxonomy or decision criteria between project and operational change |
-| Audit trail is fragmented across tools and documents | Governance data scattered between project logs, ITSM tool, emails, and spreadsheets |
+| A project change impacts live services but Operations learns about it at deployment | No systematic link between project change control and operational change management |
+| An infrastructure change breaks a project timeline but the PM finds out late | Change advisory processes have no visibility into active project dependencies |
+| Organizations using PRINCE2 can't reuse governance tools built for PMI (and vice versa) | Change governance tools are locked to one methodology's vocabulary and assumptions |
+| Lessons from past changes aren't applied to new ones | Post-implementation review data exists but isn't connected or searchable |
+| Audit trail is fragmented across tools and documents | Governance data scattered across project logs, ITSM tools, emails, and spreadsheets |
+| Teams adopting a new framework must rebuild governance from scratch | No abstraction layer separating governance logic from methodology-specific details |
 
 ---
 
 ## 3. Objectives
 
-1. **Design** a unified change governance model that formally integrates ITIL Change Enablement with PRINCE2 Change Control, respecting both frameworks without bastardizing either.
-2. **Build** a functional web application (ChangeFlow Hub) that demonstrates the model with simulated but realistic data — usable as a demo, a training tool, or a seed for real implementation.
-3. **Document** the methodology as structured, versionable content (docs-as-code) — reusable across organizations, not locked in a PDF.
-4. **Demonstrate** how AI augmentation fits responsibly within change governance: classification assistance, impact prediction, pattern matching from historical changes — always as recommendation, never as decision.
+1. **Design** a universal change governance model that captures the shared logic across PRINCE2, PMI/PMBOK, and ITIL 4 — then maps methodology-specific vocabulary, roles, and artifacts as configurable layers on top.
+2. **Build** a functional web application (ChangeFlow Hub) that demonstrates the model with simulated data, where users can switch between methodological profiles and see the governance adapt.
+3. **Document** the methodology as structured, versionable content (docs-as-code) — covering the universal model, each framework's mapping, and the integration logic.
+4. **Demonstrate** responsible AI augmentation within change governance: classification, prediction, and pattern matching — always as recommendation, never as decision.
 
 ---
 
-## 4. Scope
+## 4. The Multi-Framework Approach
+
+### How It Works
+
+ChangeFlow separates change governance into two layers:
+
+**Layer 1 — Universal Governance Engine (framework-agnostic)**
+The 7-stage change lifecycle, the cross-domain dependency logic, the risk scoring model, the audit trail structure, and the approval escalation rules. This layer captures what *every* framework agrees on: changes need to be requested, classified, assessed, approved, implemented, reviewed, and closed. The logic here doesn't change regardless of methodology.
+
+**Layer 2 — Methodological Profile (configurable)**
+The vocabulary, role names, artifact names, document templates, and framework-specific process nuances. This layer is a configuration choice — you select your profile and the system adapts.
+
+### Available Profiles
+
+| Profile | Project Methodology | Operations Methodology | Best For |
+|---|---|---|---|
+| **PRINCE2 + ITIL** | PRINCE2 (Change Authority, Issue Register, Stage Gates) | ITIL 4 (CAB, Change Schedule, RFC) | European organizations, public sector, regulated environments |
+| **PMI + ITIL** | PMI/PMBOK (CCB, Change Log, Integrated Change Control) | ITIL 4 (CAB, Change Schedule, RFC) | Global organizations, private sector, PMI-certified environments |
+| **Hybrid** | Mixed PRINCE2 + PMI terminology | ITIL 4 | Organizations with mixed methodology adoption |
+| **Framework-agnostic** | Generic terms (Approval Board, Change Record) | Generic terms | Organizations without formal methodology or building their own |
+
+### Why This Matters
+
+- **For adoption:** An organization using PMI doesn't need to learn PRINCE2 vocabulary to use ChangeFlow (and vice versa). They configure their profile and the system speaks their language.
+- **For the author's positioning:** This demonstrates understanding *above* any single framework — the ability to see the shared patterns across methodologies and abstract them into a reusable model.
+- **For migration:** When moving from demo to production, the organization selects their profile as part of setup. The governance logic doesn't change — only the labels do.
+
+---
+
+## 5. Scope
 
 ### In Scope
 
-- Unified change lifecycle model (request → classify → assess → approve → implement → review)
-- Mapping matrix: PRINCE2 artifacts ↔ ITIL artifacts at each lifecycle stage
-- Role model: who does what across project and operational boundaries
-- Change taxonomy: shared classification scheme usable by both worlds
-- Impact assessment framework with cross-domain dependency awareness
-- AI augmentation layer: classification suggestion, similar change detection, risk scoring
-- Web application prototype with simulated scenarios
+- Universal change lifecycle model (7 stages, framework-agnostic)
+- Methodological profile system (PRINCE2+ITIL, PMI+ITIL, Hybrid, Generic)
+- Mapping matrices: PRINCE2 ↔ PMI/PMBOK ↔ ITIL 4 (roles, artifacts, processes)
+- Cross-domain dependency awareness (project ↔ operations)
+- Change taxonomy: shared classification scheme usable across all profiles
+- Impact assessment framework with cross-domain awareness
+- AI augmentation layer: classification, similarity detection, risk scoring (optional)
+- Web application prototype with simulated scenarios and profile switching
 - Methodology documentation in markdown (docs-as-code)
 
 ### Out of Scope
 
-- Integration with specific ITSM tools (ServiceNow, Jira Service Management, etc.) — the framework is tool-agnostic
+- Integration with specific tools (ServiceNow, Jira, MS Project, etc.) — framework is tool-agnostic
 - Financial/costing models
-- Full ITIL or PRINCE2 implementation — only the change-related processes
+- Full implementation of ITIL, PRINCE2, or PMBOK — only change-related processes
 - Production deployment with real organizational data (migration path documented but not executed)
+- Agile-specific change processes (Scrum, SAFe) — potential future profile
 
 ---
 
-## 5. Deliverables
+## 6. Deliverables
 
 ### D1 — Methodology Documentation (`/docs`)
 
 | Document | Description |
 |---|---|
-| `governance-model.md` | The unified change governance model: lifecycle, stages, gates, decision points |
-| `itil-prince2-mapping.md` | Artifact-to-artifact mapping matrix with integration points |
-| `role-model.md` | RACI across project and operational roles for each lifecycle stage |
-| `change-taxonomy.md` | Classification scheme with decision tree |
-| `ai-augmentation-policy.md` | Where AI assists, where it doesn't, and why — the governance guardrails |
-| `migration-guide.md` | How to take this from demo to real implementation in an organization |
+| `governance-model.md` | Universal change lifecycle: 7 stages, decision logic, cross-domain integration — framework-agnostic core |
+| `framework-profiles.md` | How the profile system works, what changes per profile, configuration reference |
+| `prince2-itil-mapping.md` | Detailed mapping for PRINCE2+ITIL profile: artifacts, roles, processes, vocabulary |
+| `pmi-itil-mapping.md` | Detailed mapping for PMI/PMBOK+ITIL profile: artifacts, roles, processes, vocabulary |
+| `cross-framework-equivalences.md` | Three-way comparison table: PRINCE2 ↔ PMI/PMBOK ↔ ITIL 4 for all change-related concepts |
+| `change-taxonomy.md` | Shared classification scheme with decision tree (works across all profiles) |
+| `ai-augmentation-policy.md` | Where AI assists, where it doesn't, governance guardrails |
+| `migration-guide.md` | How to go from demo to real implementation — including profile selection |
 
 ### D2 — ChangeFlow Hub Web Application (`/app`)
 
-A React application (deployable on Vercel) that demonstrates the framework in action:
+A React application (deployable on Vercel) demonstrating the framework:
 
+- **Profile Selector** — Choose your methodological profile; the entire UI adapts vocabulary and workflows
 - **Change Request Intake** — Form with guided classification (AI-suggested category, manual override)
 - **Impact Assessment View** — Cross-domain dependency map showing project and operational impact
-- **Approval Workflow** — Visual workflow showing the change moving through gates, with role-based views
-- **Change Dashboard** — Portfolio view of active changes with status, risk score, and timeline
-- **Historical Analysis** — Browse past changes, see patterns, AI-detected similarities to current requests
-- **Scenario Simulator** — Pre-loaded realistic scenarios that walk through the full lifecycle
-
-Data is simulated but structurally realistic: change types, categories, risk levels, timelines, and dependencies modeled on patterns typical of IT organizations in semi-public/regulated environments.
+- **Approval Workflow Viewer** — Visual workflow with role names and gates from the selected profile
+- **Change Dashboard** — Portfolio view with status, risk score, and timeline
+- **Historical Analysis** — Past changes, patterns, AI-detected similarities
+- **Scenario Simulator** — Pre-loaded scenarios walking through the full lifecycle in the selected profile
+- **Framework Comparison Mode** — Side-by-side view showing how the same change looks in different profiles
 
 ### D3 — Repository & CI/CD
 
 - Professional README with architecture diagram and quick-start
 - GitHub Actions: lint, test, build, deploy to Vercel
 - Structured commit history (conventional commits)
-- Clear contribution guidelines
 
 ---
 
-## 6. Architecture Overview
+## 7. Architecture Overview
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                  ChangeFlow Hub                      │
-│               (React + Tailwind CSS)                 │
-├─────────────────────────────────────────────────────┤
-│                                                      │
-│  ┌──────────┐  ┌──────────┐  ┌───────────────────┐  │
-│  │ Change   │  │ Impact   │  │ Approval          │  │
-│  │ Intake   │  │ Assess.  │  │ Workflow Viewer   │  │
-│  └──────────┘  └──────────┘  └───────────────────┘  │
-│                                                      │
-│  ┌──────────┐  ┌──────────┐  ┌───────────────────┐  │
-│  │ Dashboard│  │ History  │  │ Scenario          │  │
-│  │ & KPIs   │  │ Analysis │  │ Simulator         │  │
-│  └──────────┘  └──────────┘  └───────────────────┘  │
-│                                                      │
-├─────────────────────────────────────────────────────┤
-│              State Management (Zustand)              │
-├─────────────────────────────────────────────────────┤
-│           Simulated Data Layer (JSON/TS)             │
-│    ┌────────────────────────────────────────────┐   │
-│    │  Change Records │ Scenarios │ Historical   │   │
-│    │  Role Config    │ Taxonomy  │ Dependencies │   │
-│    └────────────────────────────────────────────┘   │
-├─────────────────────────────────────────────────────┤
-│         AI Augmentation Layer (optional)             │
-│    Classification │ Similarity │ Risk Scoring        │
-│    (Claude API or rule-based fallback)               │
-└─────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│                     ChangeFlow Hub                        │
+│                  (React + TypeScript)                     │
+├──────────────────────────────────────────────────────────┤
+│                                                           │
+│  ┌─────────────────────────────────────────────────────┐ │
+│  │              Presentation Layer                      │ │
+│  │  Vocabulary, role names, artifact labels, workflow   │ │
+│  │  visuals — all driven by the active profile          │ │
+│  └──────────────────────┬──────────────────────────────┘ │
+│                         │                                 │
+│  ┌──────────────────────▼──────────────────────────────┐ │
+│  │           Methodological Profile Engine              │ │
+│  │  PRINCE2+ITIL │ PMI+ITIL │ Hybrid │ Generic         │ │
+│  │  Maps universal concepts → framework-specific terms  │ │
+│  └──────────────────────┬──────────────────────────────┘ │
+│                         │                                 │
+│  ┌──────────────────────▼──────────────────────────────┐ │
+│  │         Universal Governance Engine                  │ │
+│  │  7-stage lifecycle │ Cross-domain logic │ Risk model │ │
+│  │  Audit trail │ Escalation rules │ Metrics            │ │
+│  └──────────────────────┬──────────────────────────────┘ │
+│                         │                                 │
+│  ┌──────────────────────▼──────────────────────────────┐ │
+│  │              State Management (Zustand)              │ │
+│  └──────────────────────┬──────────────────────────────┘ │
+│                         │                                 │
+│  ┌──────────────────────▼──────────────────────────────┐ │
+│  │           Simulated Data Layer (JSON/TS)             │ │
+│  │  Change Records │ Scenarios │ Historical │ Config    │ │
+│  └─────────────────────────────────────────────────────┘ │
+│                                                           │
+│  ┌─────────────────────────────────────────────────────┐ │
+│  │       AI Augmentation Layer (optional)               │ │
+│  │  Classification │ Similarity │ Risk Scoring          │ │
+│  │  (Claude API or rule-based fallback)                 │ │
+│  └─────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────┘
 ```
 
 **Key architectural decisions:**
 
-- **No backend required** — all data is client-side (JSON fixtures + Zustand state). This keeps deployment simple and avoids infrastructure dependencies. When migrating to real data, the data layer swaps to an API connector.
-- **AI layer is optional** — every AI feature has a rule-based fallback. The app works without an API key. This is deliberate: it demonstrates that the governance framework has value independent of AI, and AI enhances rather than replaces it.
-- **Configuration-driven** — taxonomy, roles, workflow stages, and scoring weights are defined in config files, not hardcoded. Migration = change the config.
+- **Profile engine as a separate layer** — the universal governance logic never changes. The profile engine translates concepts into framework-specific vocabulary. Adding a new profile (e.g., Agile/SAFe) means adding a configuration file, not rewriting business logic.
+- **No backend required** — all data is client-side (JSON fixtures + Zustand state). Keeps deployment simple. Data layer is swappable to an API connector for production.
+- **AI layer is optional** — every AI feature has a rule-based fallback. The app works without any API key.
+- **Configuration-driven** — taxonomy, roles, workflows, scoring weights, and profile mappings are all defined in config files, not hardcoded.
 
 ---
 
-## 7. Technology Stack
+## 8. Technology Stack
 
 | Layer | Technology | Rationale |
 |---|---|---|
@@ -141,29 +189,32 @@ Data is simulated but structurally realistic: change types, categories, risk lev
 | Styling | Tailwind CSS | Rapid iteration, consistent design system |
 | State | Zustand | Lightweight, no boilerplate, easy to swap later |
 | Data | JSON fixtures + TypeScript interfaces | Simulated but strongly typed — ready to swap for API |
+| Profile Engine | TypeScript config files | One file per profile, hot-swappable |
 | AI (optional) | Claude API (Sonnet) | Classification, similarity, risk scoring |
 | AI fallback | Rule-based engine (TypeScript) | Works offline, no API dependency |
-| Testing | Vitest + Testing Library | Fast, modern, good DX |
+| Testing | Vitest + Testing Library | Fast, modern, good developer experience |
 | CI/CD | GitHub Actions → Vercel | Automated deploy on push to main |
 | Docs | Markdown + Mermaid diagrams | Versionable, renderable on GitHub |
 
 ---
 
-## 8. Phases & Milestones
+## 9. Phases & Milestones
 
 ### Phase 1 — Foundation (Weeks 1–2)
-- [ ] Repository setup (monorepo structure, CI/CD, linting)
-- [ ] Methodology docs: governance model + ITIL/PRINCE2 mapping
+- [ ] Repository setup (structure, CI/CD, linting)
+- [ ] Methodology docs: universal governance model + framework profiles design
 - [ ] Data model design (TypeScript interfaces for all entities)
+- [ ] Profile engine: configuration schema and first two profiles (PRINCE2+ITIL, PMI+ITIL)
 - [ ] Simulated dataset: 30–50 realistic change records across categories
 - [ ] Basic app scaffold with routing and layout
 
 ### Phase 2 — Core Application (Weeks 3–5)
+- [ ] Profile Selector (switch methodology, UI adapts)
 - [ ] Change Request Intake (form + classification logic)
 - [ ] Impact Assessment View (dependency visualization)
-- [ ] Approval Workflow Viewer (stage-gate visualization)
+- [ ] Approval Workflow Viewer (stage-gate visualization, profile-aware)
 - [ ] Change Dashboard (portfolio view with filters and risk indicators)
-- [ ] Methodology docs: role model + change taxonomy
+- [ ] Methodology docs: cross-framework equivalences + change taxonomy
 
 ### Phase 3 — Intelligence Layer (Weeks 6–7)
 - [ ] AI classification engine (Claude API + rule-based fallback)
@@ -172,7 +223,8 @@ Data is simulated but structurally realistic: change types, categories, risk lev
 - [ ] Methodology docs: AI augmentation policy
 
 ### Phase 4 — Polish & Scenario Engine (Weeks 8–9)
-- [ ] Scenario Simulator (guided walkthroughs)
+- [ ] Scenario Simulator (guided walkthroughs per profile)
+- [ ] Framework Comparison Mode (side-by-side view)
 - [ ] Historical Analysis view
 - [ ] Responsive design pass
 - [ ] Methodology docs: migration guide
@@ -185,66 +237,77 @@ Data is simulated but structurally realistic: change types, categories, risk lev
 
 ---
 
-## 9. Simulated Data Design Principles
+## 10. Simulated Data Design Principles
 
-The simulated data must be **structurally identical** to what real data would look like, so migration is a data swap, not a redesign.
+The simulated data must be **structurally identical** to real data, so migration is a data swap, not a redesign.
 
 - **Change types** reflect real IT operations: infrastructure upgrades, application deployments, security patches, configuration changes, network modifications, database migrations
-- **Risk levels** follow ITIL standard model (low/medium/high/emergency) with quantified scoring criteria
-- **Project context** uses PRINCE2 structure: stages, tolerances, exception scenarios
-- **Dependencies** model realistic cross-system impacts (e.g., a database migration affects three applications and one active project)
-- **Timelines** follow realistic patterns including CAB schedules, change windows, and blackout periods
+- **Risk levels** follow a universal model (low/medium/high/emergency) with quantified scoring
+- **Project context** works with any methodology: stages (PRINCE2), phases (PMI), or generic milestones
+- **Dependencies** model realistic cross-system impacts
+- **Timelines** follow realistic patterns including approval cycles, change windows, and blackout periods
 - **Outcomes** include successes, partial failures, rollbacks, and escalations — not just happy paths
+- **Profile awareness** — the same change record can be displayed in any profile's vocabulary
 
 ---
 
-## 10. Migration Path (Demo → Real)
-
-The framework is designed for migration by swapping three layers:
+## 11. Migration Path (Demo → Real)
 
 | Layer | Demo Mode | Production Mode |
 |---|---|---|
-| Data | JSON fixtures | REST API / ITSM connector (ServiceNow, Jira SM, etc.) |
-| Auth | None (demo) | SSO / LDAP (organizational identity) |
+| Data | JSON fixtures | REST API / ITSM connector |
+| Auth | None (demo) | SSO / LDAP |
 | AI | Optional Claude API | Internal LLM or Claude API with organizational data |
+| Profile | All profiles available for comparison | Selected profile for the organization |
 
-**What stays the same:** governance model, workflow logic, taxonomy, UI components, role model, documentation. This is the whole point — the framework is the product, the data source is pluggable.
+**Migration steps:**
+1. Select your methodological profile
+2. Configure organization-specific parameters (role names, approval thresholds, risk criteria)
+3. Connect data source (API to ITSM tool, project management tool, or both)
+4. Import historical change data (optional, improves AI recommendations)
+5. Go live
+
+**What stays the same:** governance lifecycle, workflow logic, taxonomy structure, UI components, audit trail, documentation. The framework is the product. Everything else is pluggable.
 
 ---
 
-## 11. Success Criteria
+## 12. Success Criteria
 
-- [ ] A non-technical stakeholder can open the demo and understand the change lifecycle in under 5 minutes
-- [ ] The methodology docs are comprehensive enough to brief a real implementation without the author in the room
+- [ ] A non-technical stakeholder can open the demo, select their methodology, and understand the change lifecycle in under 5 minutes
+- [ ] The methodology docs are comprehensive enough to brief a real implementation without the author present
+- [ ] The profile system demonstrably shows the same governance logic in different methodological languages
 - [ ] The repo demonstrates professional engineering practices (typed code, tests, CI/CD, clean history)
 - [ ] The AI augmentation layer works but the app is fully functional without it
 - [ ] A potential employer or client visiting the GitHub repo understands both the domain expertise and the technical capability within 60 seconds
 
 ---
 
-## 12. Repo Structure
+## 13. Repo Structure
 
 ```
 changeflow/
-├── README.md                    # Professional entry point
-├── PROJECT_CHARTER.md           # This document
+├── README.md
+├── PROJECT_CHARTER.md
 ├── docs/
 │   ├── governance-model.md
-│   ├── itil-prince2-mapping.md
-│   ├── role-model.md
+│   ├── framework-profiles.md
+│   ├── prince2-itil-mapping.md
+│   ├── pmi-itil-mapping.md
+│   ├── cross-framework-equivalences.md
 │   ├── change-taxonomy.md
 │   ├── ai-augmentation-policy.md
 │   └── migration-guide.md
 ├── app/
 │   ├── src/
-│   │   ├── components/          # React components
-│   │   ├── views/               # Page-level views
-│   │   ├── store/               # Zustand state management
-│   │   ├── data/                # Simulated data fixtures
-│   │   ├── engine/              # Classification, scoring, workflow logic
-│   │   ├── ai/                  # AI integration layer (optional)
-│   │   ├── types/               # TypeScript interfaces
-│   │   └── config/              # Taxonomy, roles, workflow config
+│   │   ├── components/
+│   │   ├── views/
+│   │   ├── store/
+│   │   ├── data/
+│   │   ├── engine/
+│   │   ├── profiles/
+│   │   ├── ai/
+│   │   ├── types/
+│   │   └── config/
 │   ├── tests/
 │   ├── public/
 │   ├── package.json
@@ -253,7 +316,7 @@ changeflow/
 │   └── vite.config.ts
 ├── .github/
 │   └── workflows/
-│       └── ci.yml               # Lint, test, build, deploy
+│       └── ci.yml
 └── LICENSE
 ```
 
