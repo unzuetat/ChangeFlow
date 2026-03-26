@@ -2,152 +2,190 @@
 
 **Configurable Change Governance Framework for Multi-Methodology IT Environments**
 
-Supporting PRINCE2, PMI/PMBOK, and ITIL 4 — individually or combined.
+ChangeFlow bridges the gap between project change management and operational change management. Organizations running both a project methodology (PRINCE2, PMI/PMBOK, or SAFe) and an operations methodology (ITIL) manage changes through two disconnected processes. Project changes affect live services without Operations knowing. Operational changes break project timelines without the PM knowing. ChangeFlow solves this with a unified governance engine that adapts its vocabulary to your methodology.
 
-[![CI](https://img.shields.io/badge/CI-GitHub_Actions-2088FF?logo=github-actions&logoColor=white)](#)
-[![Deploy](https://img.shields.io/badge/Deploy-Vercel-000?logo=vercel&logoColor=white)](#)
-[![License](https://img.shields.io/badge/License-MIT-green)](#)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](#)
+**[Live Demo →](https://changeflow.vercel.app)**
 
 ---
 
 ## The Problem
 
-Organizations running both a project methodology (PRINCE2, PMI/PMBOK) and an operations methodology (ITIL) manage changes through two parallel, disconnected processes. Project changes affect live services without Operations knowing. Operational changes break project timelines without the PM knowing. And governance tools built for one framework can't be reused by teams using another.
+In most IT organizations, two parallel change processes exist:
 
-This gap is especially dangerous in regulated and semi-public environments, where auditability isn't optional.
+- **Project side:** Changes governed by PRINCE2 (Issues, Change Authority, Exception Reports) or PMI (Change Requests, CCB, Variance Reports) or SAFe (Backlog Items, RTE, Impediment Escalation)
+- **Operations side:** Changes governed by ITIL 4 (RFCs, CAB, PIR)
 
-## What ChangeFlow Does
+These processes don't talk to each other. A project team deploys a database migration without telling Operations. An operations team retires an API that a project depends on. The gap between these two worlds is where governance breaks down.
 
-ChangeFlow is a **universal change governance framework** with a configurable methodology layer. The core engine handles the governance logic — lifecycle, classification, cross-domain routing, approval workflows, audit trail. On top of that, a **profile system** adapts the vocabulary, roles, and artifacts to your organization's chosen methodology.
+## The Solution
 
-**Select your profile. The governance adapts.**
+ChangeFlow provides a **universal governance engine** with a **configurable profile layer**:
 
-| Profile | You'll see... |
-|---|---|
-| PRINCE2 + ITIL | Change Authority, Issue Register, Stage tolerances, Exceptions, CAB |
-| PMI/PMBOK + ITIL | CCB, Change Log, Variance thresholds, Integrated Change Control, CAB |
-| Hybrid | Mixed terminology from both project methodologies |
-| Framework-agnostic | Generic terms — for organizations building their own approach |
+- **One lifecycle** — 7 stages that every change follows: Request → Classify → Assess → Approve → Implement → Review → Close
+- **One entry point** — Every change enters once. The system determines if it needs project governance, operational governance, or both
+- **Cross-domain detection** — At classification, the system checks whether a change affects live services (if from a project) or active projects (if from operations)
+- **Dual approval** — Cross-domain changes require approval from both project and operational authorities. Neither overrides the other
+- **Your vocabulary** — Select your profile and the entire system adapts its terminology, roles, and artifacts
 
-### Core Capabilities (all profiles)
+---
 
-- **Single intake, dual processing** — every change enters once and is routed by scope (project / operational / cross-domain)
-- **Cross-domain dependency awareness** — project changes assessed for operational impact and vice versa, as a mandatory gate
-- **Dual approval for cross-domain changes** — both project and operational authorities must approve
+## Profiles
+
+| Profile | Project Side | Operations Side | Best For |
+|---|---|---|---|
+| **PRINCE2 + ITIL 4** | PRINCE2 | ITIL 4 | European orgs, public sector, regulated |
+| **PMI/PMBOK + ITIL 4** | PMI/PMBOK | ITIL 4 | Global, private sector, PMI-certified |
+| **SAFe/Agile + ITIL 4** | SAFe / Agile | ITIL 4 | Orgs transitioning to agile delivery |
+| **Hybrid** | PRINCE2 + PMI mix | ITIL 4 | Mixed methodology environments |
+| **Framework-Agnostic** | Generic | Generic | Orgs building their own approach |
+
+---
+
+## Features
+
+### Governance Engine
+- **Single intake, dual processing** — every change enters once and is routed by scope
+- **Cross-domain dependency awareness** — project changes assessed for operational impact and vice versa
+- **Dual approval for cross-domain changes** — both authorities must approve
+- **Emergency path** — compressed lifecycle with retrospective assessment within 5 business days
+- **Threshold breach escalation** — automatic escalation when changes push projects beyond boundaries
 - **Unified post-change review** — merging project lessons and operational PIR into one activity
-- **Governance Translator** — a built-in tool (⌘K) that works two ways: describe a problem in plain language and get official terms across all frameworks, or enter a term from any framework and see its equivalents in all others. Like Google Translate for governance methodology.
-- **AI augmentation (optional)** — classification suggestions, impact prediction, pattern detection. Always as recommendation, never as decision. Full rule-based fallback.
 
-## Live Demo
+### Intelligence Layer
+- **AI Classification** — Rule-based engine analyzes change titles and descriptions, suggests type, risk, category, and scope with confidence scores. Every suggestion can be accepted or dismissed.
+- **Composite Risk Scoring** — Calculates a 0-100 risk score from multiple factors: declared risk, scope, type, service breadth, project breadth. Includes visual breakdown of each factor.
+- **Similarity Detection** — Compares changes against the full register using text similarity, category matching, and service overlap. Highlights rejected similar changes as warnings.
 
-🔗 **[changeflow.vercel.app](#)** *(coming soon)*
+### Tools
+- **Governance Translator** — Describe a problem in plain language, get official terms in PRINCE2, PMI, and ITIL. Or enter a framework term and see equivalents across all methodologies. 18 concepts mapped with fuzzy search.
+- **Framework Comparison Mode** — Side-by-side comparison of vocabulary, roles, artifacts, and escalation models across all profiles. Differences highlighted automatically.
+- **Scenario Simulator** — Walk through pre-built governance scenarios step by step: cross-domain database migration, emergency security patch, rejected change. All terminology adapts to your active profile.
 
-The demo runs with simulated data. No real organizational data is used. Switch between methodological profiles to see the same governance logic in different frameworks' language.
+### Application
+- **Dashboard** — Portfolio overview with governance metrics, change list, and lifecycle visualization
+- **Change Register** — Filterable table with search, expandable detail view, integrated risk scoring and similarity detection
+- **Intake Form** — Profile-aware form with contextual alerts for cross-domain, emergency, and high-risk changes
+- **Workflow Viewer** — Visual 7-stage lifecycle with stage detail, special paths (cross-domain, emergency, threshold breach)
+- **Settings** — Complete profile inspector showing vocabulary, roles, artifacts, and escalation mappings
+- **Responsive design** — Works on desktop, tablet, and mobile
+
+---
 
 ## Architecture
-
 ```
-┌───────────────────────────────────────────────────────┐
-│                   ChangeFlow Hub                       │
-│                (React + TypeScript)                    │
-├───────────────────────────────────────────────────────┤
-│  Presentation Layer (profile-driven vocabulary)        │
-├───────────────────────────────────────────────────────┤
-│  Profile Engine                                        │
-│  PRINCE2+ITIL │ PMI+ITIL │ Hybrid │ Generic           │
-├───────────────────────────────────────────────────────┤
-│  Universal Governance Engine                           │
-│  7-stage lifecycle │ Cross-domain logic │ Risk model   │
-├───────────────────────────────────────────────────────┤
-│  Zustand State │ Simulated Data (JSON/TS)             │
-├───────────────────────────────────────────────────────┤
-│  AI Layer (optional — Claude API + rule-based fallback)│
-└───────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────┐
+│            Presentation Layer                │
+│  React 18 + TypeScript + Tailwind CSS       │
+│  (vocabulary driven by active profile)       │
+├─────────────────────────────────────────────┤
+│         Profile Engine                       │
+│  PRINCE2+ITIL │ PMI+ITIL │ SAFe+ITIL       │
+│  Hybrid │ Generic                            │
+├─────────────────────────────────────────────┤
+│       Universal Governance Engine            │
+│  7-stage lifecycle │ Cross-domain logic      │
+├─────────────────────────────────────────────┤
+│       Intelligence Layer                     │
+│  Classification │ Risk Scoring │ Similarity  │
+├─────────────────────────────────────────────┤
+│  Zustand State │ Simulated Data (JSON/TS)   │
+└─────────────────────────────────────────────┘
 ```
 
 **Key design decisions:**
+- Profile engine is a separate layer — governance logic never changes, only labels
+- No backend — client-side data, deployable to Vercel
+- AI is optional — every AI feature has a deterministic rule-based fallback
+- Configuration-driven — taxonomy, roles, workflows are config files, not hardcoded
+- Three-layer separation — engine (keep), profiles (customize), data (replace)
 
-- **Profile engine as a separate layer** — governance logic never changes. Adding a new methodology (e.g., Agile/SAFe) means adding a config file, not rewriting logic.
-- **No backend** — client-side data, deployable to Vercel. Data layer is swappable to REST API for production.
-- **AI is optional** — every feature has a deterministic fallback. Works without any API key.
-- **Configuration-driven** — taxonomy, roles, workflows, and scoring are config files, not hardcoded.
+---
+
+## Quick Start
+```bash
+cd app
+npm install
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173).
+
+To run tests:
+```bash
+npm test
+```
+
+---
 
 ## Documentation
 
-The methodology documentation is the intellectual core of this project.
-
 | Document | Description |
 |---|---|
-| [Governance Model](./docs/governance-model.md) | Universal change lifecycle — framework-agnostic, 7 stages, cross-domain integration |
-| [Cross-Framework Equivalences](./docs/cross-framework-equivalences.md) | Three-way mapping: PRINCE2 ↔ PMI/PMBOK ↔ ITIL 4 for all change concepts |
-| [Framework Profiles](./docs/framework-profiles.md) | Profile system design, configuration reference, how to add new profiles |
-| [PRINCE2+ITIL Mapping](./docs/prince2-itil-mapping.md) | Detailed mapping for the PRINCE2+ITIL profile |
-| [PMI+ITIL Mapping](./docs/pmi-itil-mapping.md) | Detailed mapping for the PMI+ITIL profile |
-| [Change Taxonomy](./docs/change-taxonomy.md) | Shared classification scheme with decision tree |
-| [AI Augmentation Policy](./docs/ai-augmentation-policy.md) | Where AI helps, where it doesn't, governance guardrails |
-| [Migration Guide](./docs/migration-guide.md) | Demo → production: profile selection, data connection, go-live |
+| [Governance Model](docs/governance-model.md) | Universal 7-stage lifecycle, framework-agnostic core |
+| [Framework Profiles](docs/framework-profiles.md) | How the profile system works, adding custom profiles |
+| [PRINCE2+ITIL Mapping](docs/prince2-itil-mapping.md) | Detailed mapping for PRINCE2+ITIL profile |
+| [PMI+ITIL Mapping](docs/pmi-itil-mapping.md) | Detailed mapping for PMI+ITIL profile |
+| [Cross-Framework Equivalences](docs/cross-framework-equivalences.md) | Three-way Rosetta Stone: PRINCE2 ↔ PMI ↔ ITIL |
+| [Change Taxonomy](docs/change-taxonomy.md) | Classification scheme with decision trees |
+| [AI Augmentation Policy](docs/ai-augmentation-policy.md) | AI governance guardrails |
+| [Migration Guide](docs/migration-guide.md) | How to go from demo to real implementation |
 
-## Quick Start
+---
 
-```bash
-# Clone
-git clone https://github.com/unzuetat/changeflow.git
-cd changeflow/app
-
-# Install
-npm install
-
-# Run locally
-npm run dev
-
-# Run tests
-npm run test
-
-# Build
-npm run build
+## Project Structure
 ```
+changeflow/
+├── docs/                          # Methodology documentation
+│   ├── governance-model.md
+│   ├── framework-profiles.md
+│   ├── prince2-itil-mapping.md
+│   ├── pmi-itil-mapping.md
+│   ├── cross-framework-equivalences.md
+│   ├── change-taxonomy.md
+│   ├── ai-augmentation-policy.md
+│   └── migration-guide.md
+├── app/                           # React application
+│   ├── src/
+│   │   ├── types/                 # TypeScript type definitions
+│   │   ├── profiles/              # Methodology profile configurations
+│   │   ├── engine/                # Intelligence layer
+│   │   │   ├── similarity.ts      # Similarity detection
+│   │   │   ├── risk-scoring.ts    # Composite risk scoring
+│   │   │   ├── classification.ts  # AI classification
+│   │   │   └── __tests__/         # Unit tests
+│   │   ├── data/                  # Simulated data
+│   │   ├── store/                 # Zustand state management
+│   │   ├── components/            # Reusable components
+│   │   │   ├── layout/            # Sidebar, Header
+│   │   │   ├── tools/             # Governance Translator
+│   │   │   └── intelligence/      # AI panels
+│   │   └── views/                 # Page views
+│   └── public/                    # Static assets
+├── .github/workflows/ci.yml      # CI/CD pipeline
+└── README.md
+```
+
+---
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Frontend | React 18 + TypeScript |
-| Styling | Tailwind CSS |
-| State | Zustand |
-| Data | JSON fixtures (typed — API-swappable) |
-| Profiles | TypeScript config (one file per methodology) |
-| AI (optional) | Claude API (Sonnet) + rule-based fallback |
-| Testing | Vitest + Testing Library |
-| CI/CD | GitHub Actions → Vercel |
-| Docs | Markdown + Mermaid |
+- **React 18** + **TypeScript** — UI framework
+- **Tailwind CSS** — Styling
+- **Zustand** — State management
+- **Vite** — Build tool
+- **Vitest** — Testing
+- **Lucide React** — Icons
+- **GitHub Actions** — CI/CD
+- **Vercel** — Hosting
 
-## Project Status
+---
 
-| Phase | Status |
-|---|---|
-| Phase 1 — Foundation (repo, docs, data model, profiles) | 🟡 In Progress |
-| Phase 2 — Core Application (intake, assessment, workflow, dashboard) | ⬜ Planned |
-| Phase 3 — Intelligence Layer (AI classification, similarity, risk scoring) | ⬜ Planned |
-| Phase 4 — Scenario Engine & Polish | ⬜ Planned |
-| Phase 5 — Hardening (tests, CI/CD, performance) | ⬜ Planned |
+## Author
 
-See [PROJECT_CHARTER.md](./PROJECT_CHARTER.md) for full timeline and deliverables.
-
-## Why This Exists
-
-Most governance tools and frameworks assume you've picked one methodology and you're sticking with it. Reality is messier: organizations use PRINCE2 for some projects and PMI for others, ITIL runs underneath everything, and the gap between project change control and operational change management is where things break.
-
-ChangeFlow demonstrates that the governance logic is the same across methodologies — only the vocabulary differs. By abstracting the engine from the labels, it creates a framework that's genuinely reusable across organizations, regardless of their methodological choices.
-
-The AI layer shows how augmentation fits *within* governance — supporting human decisions, not replacing them — which is exactly the challenge organizations face as they adopt AI tools.
+Built by [Unzuetat](https://github.com/unzuetat) — IT Project Manager & PMO (PMP®, PRINCE2®) exploring the intersection of multi-methodology governance and AI augmentation.
 
 ---
 
 ## License
 
-MIT
-
-## Author
-
-Built by [Unzuetat](https://github.com/unzuetat) — IT Project Manager & PMO (PMP®, PRINCE2®) exploring the intersection of multi-methodology governance and AI augmentation.
+This project is shared as a professional portfolio piece and governance reference framework. See repository for details.
