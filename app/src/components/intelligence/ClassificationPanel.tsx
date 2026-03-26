@@ -64,7 +64,7 @@ export default function ClassificationPanel({ title, description, onAccept }: Pr
           return (
             <div
               key={field.key}
-              className={`bg-white rounded-lg border px-3 py-2 flex items-center gap-3 ${
+              className={`bg-white rounded border px-3 py-2 flex items-center gap-3 ${
                 isAccepted ? 'border-green-300 bg-green-50/50' : 'border-purple-100'
               }`}
             >
