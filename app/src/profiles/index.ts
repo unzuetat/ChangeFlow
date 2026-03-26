@@ -1,11 +1,13 @@
 import { MethodologicalProfile, ProfileId } from '../types/profile';
 import { prince2ItilProfile } from './prince2-itil';
 import { pmiItilProfile } from './pmi-itil';
+import { safeItilProfile } from './safe-itil';
 
 // All available profiles
 export const profiles: Record<ProfileId, MethodologicalProfile> = {
   'prince2-itil': prince2ItilProfile,
   'pmi-itil': pmiItilProfile,
+  'safe-itil': safeItilProfile,
   'hybrid': {
     ...prince2ItilProfile,
     id: 'hybrid',
