@@ -248,7 +248,7 @@ export default function ScenarioSimulator() {
   if (!activeScenario) {
     return (
       <div className="space-y-4">
-        <div className="bg-cf-50 border border-cf-200 rounded-xl px-4 py-3 flex items-start gap-3">
+        <div className="bg-cf-50 border border-cf-200 rounded px-4 py-3 flex items-start gap-3">
           <Info size={16} className="text-cf-600 mt-0.5 shrink-0" />
           <div>
             <p className="text-xs font-semibold text-cf-700">
@@ -267,7 +267,7 @@ export default function ScenarioSimulator() {
               <button
                 key={scenario.id}
                 onClick={() => selectScenario(scenario)}
-                className="bg-white rounded-xl border border-gray-200 p-4 text-left hover:border-cf-300 hover:shadow-sm transition-all group"
+                className="bg-white rounded border border-gray-200 p-4 text-left hover:border-cf-300 hover:shadow-sm transition-all group"
               >
                 <div className="flex items-center gap-2 mb-2">
                   <Icon size={18} className={scenario.iconColor} strokeWidth={1.8} />
@@ -306,11 +306,11 @@ export default function ScenarioSimulator() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="bg-white rounded-xl border border-gray-200 p-4 flex items-center justify-between">
+      <div className="bg-white rounded border border-gray-200 p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <button
             onClick={reset}
-            className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 transition-colors"
+            className="p-1.5 rounded hover:bg-gray-100 text-gray-400 transition-colors"
             title="Back to scenarios"
           >
             <RotateCcw size={16} />
