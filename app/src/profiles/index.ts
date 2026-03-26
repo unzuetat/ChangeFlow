@@ -5,7 +5,7 @@ import { pmiItilProfile } from './pmi-itil';
 import { safeItilProfile } from './safe-itil';
 
 // All available profiles
-export const profiles: Record<ProfileId, MethodologicalProfile> = {
+export const profiles: Record<ProfileId, MethodologicalProfile | ExtendedMethodologicalProfile> = {
   'prince2-itil': prince2ItilProfile,
   'pmi-itil': pmiItilProfile,
   'safe-itil': safeItilProfile,
