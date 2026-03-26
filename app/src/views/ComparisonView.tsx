@@ -166,7 +166,7 @@ export default function ComparisonView() {
               onClick={() => toggleProfile(p.id)}
               className={`px-3 py-1.5 text-xs font-medium rounded border transition-all ${
                 selectedIds.includes(p.id)
-                  ? 'border-cf-400 bg-cf-50 text-cf-700'
+                 ? 'border-cf-500 bg-cf-50 text-cf-800'
                   : 'border-gray-200 text-gray-500 hover:border-gray-300'
               }`}
             >
