@@ -1,5 +1,6 @@
 import { MethodologicalProfile, ProfileId } from '../types/profile';
 import { prince2ItilProfile } from './prince2-itil';
+import { prince2ItilCustomProfile } from './prince2-itil-custom';
 import { pmiItilProfile } from './pmi-itil';
 import { safeItilProfile } from './safe-itil';
 
@@ -16,6 +17,7 @@ export const profiles: Record<ProfileId, MethodologicalProfile> = {
     projectMethodology: 'PRINCE2 / PMI Hybrid',
   },
   'generic': {
+    'prince2-itil-custom': prince2ItilCustomProfile,
     ...prince2ItilProfile,
     id: 'generic',
     name: 'Framework-Agnostic',
