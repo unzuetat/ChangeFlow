@@ -9,6 +9,7 @@ import IntakeForm from './views/IntakeForm';
 import WorkflowViewer from './views/WorkflowViewer';
 import SettingsView from './views/SettingsView';
 import ComparisonView from './views/ComparisonView';
+import ScenarioSimulator from './views/ScenarioSimulator';
 
 const pageTitles: Record<string, string> = {
   '/':           'Dashboard',
@@ -17,6 +18,7 @@ const pageTitles: Record<string, string> = {
   '/workflow':   'Workflow Viewer',
   '/translator': 'Governance Translator',
   '/compare':    'Framework Comparison',
+  '/simulator':  'Scenario Simulator',
   '/settings':   'Settings',
 };
 
@@ -33,10 +35,11 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/translator" element={<TranslatorView />} />
-        <Route path="/changes" element={<ChangeRegister />} />
+            <Route path="/changes" element={<ChangeRegister />} />
             <Route path="/intake" element={<IntakeForm />} />
             <Route path="/workflow" element={<WorkflowViewer />} />
             <Route path="/compare" element={<ComparisonView />} />
+            <Route path="/simulator" element={<ScenarioSimulator />} />
             <Route path="/settings" element={<SettingsView />} />
           </Routes>
         </main>
