@@ -203,24 +203,3 @@ export default function SettingsView() {
     </div>
   );
 }
-```
-
-Ahora edita `app/src/App.tsx`. Busca esta línea en los imports:
-```
-import WorkflowViewer from './views/WorkflowViewer';
-```
-
-Cámbiala por:
-```
-import WorkflowViewer from './views/WorkflowViewer';
-import SettingsView from './views/SettingsView';
-```
-
-Luego busca esta línea en las rutas:
-```
-            <Route path="/settings" element={<PlaceholderView name="Settings" />} />
-```
-
-Cámbiala por:
-```
-            <Route path="/settings" element={<SettingsView />} />
