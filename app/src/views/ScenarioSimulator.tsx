@@ -396,7 +396,7 @@ export default function ScenarioSimulator() {
         ) : (
           <button
             onClick={reset}
-            className="flex items-center gap-1 px-4 py-2 text-xs font-medium rounded bg-green-600 text-white hover:bg-green-700 transition-colors"
+          className="flex items-center gap-1 px-4 py-2 text-xs font-medium rounded bg-green-600 text-white hover:bg-green-700 transition-colors"
           >
             <RotateCcw size={12} />
             Back to Scenarios
