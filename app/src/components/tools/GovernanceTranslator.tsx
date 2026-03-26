@@ -277,7 +277,7 @@ export default function GovernanceTranslator() {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-3 rounded-full shadow-lg hover:bg-slate-800 transition-all hover:scale-105 flex items-center gap-2 z-50"
+        className="fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-3 rounded-sm shadow-lg hover:bg-slate-800 transition-all hover:scale-105 flex items-center gap-2 z-50"
         title="Governance Translator (Ctrl+K)"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -429,7 +429,7 @@ export default function GovernanceTranslator() {
                 <button
                   key={suggestion}
                   onClick={() => setQuery(suggestion)}
-                  className="px-2.5 py-1 text-xs bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors"
+                  className="px-2.5 py-1 text-xs bg-gray-100 text-gray-600 rounded-sm hover:bg-gray-200 transition-colors"
                 >
                   {suggestion}
                 </button>
