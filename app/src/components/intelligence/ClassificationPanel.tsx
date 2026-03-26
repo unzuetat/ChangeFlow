@@ -47,7 +47,7 @@ export default function ClassificationPanel({ title, description, onAccept }: Pr
   if (visibleFields.length === 0) return null;
 
   return (
-    <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
+    <div className="bg-purple-50 border border-purple-200 rounded p-4">
       <div className="flex items-center gap-2 mb-3">
         <BrainCircuit size={14} className="text-purple-600" strokeWidth={1.8} />
         <span className="text-xs font-semibold text-purple-700">
