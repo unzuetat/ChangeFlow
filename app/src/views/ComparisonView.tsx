@@ -154,7 +154,7 @@ export default function ComparisonView() {
   return (
     <div className="space-y-4">
       {/* Profile selector */}
-      <div className="bg-white rounded-xl border border-gray-200 p-4">
+      <div className="bg-white rounded border border-gray-200 p-4">
         <div className="flex items-center gap-2 mb-3">
           <ArrowLeftRight size={16} className="text-cf-600" strokeWidth={1.8} />
           <h3 className="text-sm font-bold text-gray-800">Select Profiles to Compare</h3>
@@ -164,7 +164,7 @@ export default function ComparisonView() {
             <button
               key={p.id}
               onClick={() => toggleProfile(p.id)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-all ${
+              className={`px-3 py-1.5 text-xs font-medium rounded border transition-all ${
                 selectedIds.includes(p.id)
                   ? 'border-cf-400 bg-cf-50 text-cf-700'
                   : 'border-gray-200 text-gray-500 hover:border-gray-300'
@@ -194,7 +194,7 @@ export default function ComparisonView() {
           </div>
 
           {/* Stages */}
-          <div className="bg-white rounded-xl border border-gray-200">
+          <div className="bg-white rounded border border-gray-200">
             <button
               onClick={() => toggleSection('stages')}
               className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50/50 transition-colors"
@@ -206,7 +206,7 @@ export default function ComparisonView() {
           </div>
 
           {/* Roles */}
-          <div className="bg-white rounded-xl border border-gray-200">
+          <div className="bg-white rounded border border-gray-200">
             <button
               onClick={() => toggleSection('roles')}
               className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50/50 transition-colors"
@@ -218,7 +218,7 @@ export default function ComparisonView() {
           </div>
 
           {/* Artifacts */}
-          <div className="bg-white rounded-xl border border-gray-200">
+          <div className="bg-white rounded border border-gray-200">
             <button
               onClick={() => toggleSection('artifacts')}
               className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50/50 transition-colors"
@@ -230,7 +230,7 @@ export default function ComparisonView() {
           </div>
 
           {/* Vocabulary */}
-          <div className="bg-white rounded-xl border border-gray-200">
+          <div className="bg-white rounded border border-gray-200">
             <button
               onClick={() => toggleSection('vocabulary')}
               className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50/50 transition-colors"
@@ -242,7 +242,7 @@ export default function ComparisonView() {
           </div>
 
           {/* Escalation - special layout */}
-          <div className="bg-white rounded-xl border border-gray-200">
+          <div className="bg-white rounded border border-gray-200">
             <button
               onClick={() => toggleSection('escalation')}
               className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50/50 transition-colors"
