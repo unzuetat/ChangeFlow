@@ -48,7 +48,7 @@ export default function SimilarityPanel({ target, allChanges }: Props) {
             <div className="flex items-start justify-between mb-2">
               <div className="flex items-center gap-2">
                 <span className="font-mono text-xs text-gray-400">{match.change.id}</span>
-                <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${label.color}`}>
+                <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-sm ${label.color}`}>
                   {label.text} ({Math.round(match.score * 100)}%)
                 </span>
               </div>
