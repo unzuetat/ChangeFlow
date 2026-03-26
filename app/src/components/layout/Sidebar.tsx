@@ -5,6 +5,7 @@ import {
   List,
   GitBranch,
   Languages,
+  ArrowLeftRight,
   Settings,
 } from 'lucide-react';
 
@@ -14,6 +15,7 @@ const navItems = [
   { to: '/intake',    label: 'New Change',    icon: FilePlus },
   { to: '/workflow',  label: 'Workflow',      icon: GitBranch },
   { to: '/translator', label: 'Translator',  icon: Languages },
+  { to: '/compare',    label: 'Compare',     icon: ArrowLeftRight },
 ];
 
 export default function Sidebar() {
