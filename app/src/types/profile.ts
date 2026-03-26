@@ -6,7 +6,7 @@
 // The governance ENGINE stays the same. The LABELS change.
 // =============================================================================
 
-export type ProfileId = 'prince2-itil' | 'pmi-itil' | 'hybrid' | 'generic';
+export type ProfileId = 'prince2-itil' | 'pmi-itil' | 'safe-itil' | 'hybrid' | 'generic';
 
 export interface MethodologicalProfile {
   id: ProfileId;
