@@ -20,7 +20,7 @@ export default function RiskScorePanel({ change }: Props) {
       </div>
 
       {/* Score display */}
-      <div className={`${colors.bg} rounded-lg border border-gray-200 p-3`}>
+      <div className={`${colors.bg} rounded border border-gray-200 p-3`}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-baseline gap-2">
             <span className={`text-2xl font-bold ${colors.text}`}>{score.total}</span>
@@ -45,7 +45,7 @@ export default function RiskScorePanel({ change }: Props) {
       {/* Breakdown */}
       <div className="space-y-1.5">
         {score.breakdown.map((factor) => (
-          <div key={factor.name} className="bg-white rounded-lg border border-gray-100 px-3 py-2">
+          <div key={factor.name} className="bg-white rounded border border-gray-100 px-3 py-2">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[11px] font-medium text-gray-700">{factor.name}</span>
               <span className="text-[11px] font-mono text-gray-400">
