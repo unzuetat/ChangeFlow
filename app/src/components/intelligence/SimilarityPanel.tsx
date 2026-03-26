@@ -19,7 +19,7 @@ export default function SimilarityPanel({ target, allChanges }: Props) {
 
   if (matches.length === 0) {
     return (
-      <div className="bg-gray-50 rounded-lg border border-gray-200 p-4 text-center">
+      <div className="bg-gray-50 rounded border border-gray-200 p-4 text-center">
         <GitCompare size={20} className="text-gray-300 mx-auto mb-2" strokeWidth={1.5} />
         <p className="text-xs text-gray-400">No similar changes found in the register.</p>
       </div>
@@ -43,7 +43,7 @@ export default function SimilarityPanel({ target, allChanges }: Props) {
         return (
           <div
             key={match.change.id}
-            className="bg-white rounded-lg border border-gray-200 p-3"
+            className="bg-white rounded border border-gray-200 p-3"
           >
             <div className="flex items-start justify-between mb-2">
               <div className="flex items-center gap-2">
