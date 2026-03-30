@@ -1,3 +1,4 @@
+import { useI18n } from '../i18n';
 import { useState, useEffect } from 'react';
 import { useStore } from '../store';
 import { changes as seedChanges } from '../data/seed';
