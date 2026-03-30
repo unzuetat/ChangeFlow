@@ -35,9 +35,7 @@ export default function Header() {
         <div className="flex items-center gap-3 min-w-0">
           <h1 className="text-sm font-semibold text-gray-800 truncate">ChangeFlow</h1>
         </div>
-
         <div className="flex items-center gap-3 flex-shrink-0">
-          {/* Language selector: EN / ES */}
           <div className="flex items-center gap-1 text-xs font-medium">
             {languages.map((lang, idx) => (
               <span key={lang.id} className="flex items-center">
@@ -55,8 +53,6 @@ export default function Header() {
               </span>
             ))}
           </div>
-
-          {/* Profile selector */}
           <div className="flex items-center gap-2 border-l border-gray-200 pl-3">
             <span className="text-xs text-gray-400 hidden sm:inline">{t.header.profile}:</span>
             <select
@@ -69,8 +65,6 @@ export default function Header() {
               ))}
             </select>
           </div>
-
-          {/* User selector */}
           {hasUsers && (
             <div className="flex items-center gap-2 border-l border-gray-200 pl-3">
               <span className="text-xs text-gray-400 hidden sm:inline">{t.header.user}:</span>
