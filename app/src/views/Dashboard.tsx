@@ -52,13 +52,6 @@ function getRiskBarColor(score: number): string {
   return 'bg-red-800';
 }
 
-function getRiskLabel(score: number): string {
-  if (score <= 20) return 'Low';
-  if (score <= 45) return 'Medium';
-  if (score <= 70) return 'High';
-  return 'Critical';
-}
-
 function getRiskTextColor(score: number): string {
   if (score <= 20) return 'text-green-700';
   if (score <= 45) return 'text-yellow-700';
@@ -68,6 +61,7 @@ function getRiskTextColor(score: number): string {
 
 export default function Dashboard() {
   const { changes, setChanges, activeProfile } = useStore();
+  const { t } = useI18n();
   const [riskOpen, setRiskOpen] = useState(false);
 
   useEffect(() => {
@@ -91,18 +85,31 @@ export default function Dashboard() {
     ? Math.round(riskScores.reduce((sum, r) => sum + r.score, 0) / riskScores.length)
     : 0;
 
+  const riskLabelFn = (score: number): string => {
+    if (score <= 20) return t.risk.low;
+    if (score <= 45) return t.risk.medium;
+    if (score <= 70) return t.risk.high;
+    return t.risk.critical;
+  };
+
+  const riskMap: Record<string, string> = {
+    low: t.risk.low,
+    medium: t.risk.medium,
+    high: t.risk.high,
+    critical: t.risk.critical,
+  };
+
   const statCards = [
-    { label: {t.dashboard.total},       value: total,       color: 'border-t-cf-500' },
-    { label: {t.dashboard.active},      value: active,      color: 'border-t-green-600' },
-    { label: {t.dashboard.emergency},   value: emergency,   color: 'border-t-orange-500' },
-    { label: {t.dashboard.crossDomain}, value: crossDomain, color: 'border-t-pink-600' },
-    { label: {t.dashboard.critical},    value: highRisk,    color: 'border-t-red-600' },
-    { label: {t.dashboard.closed},      value: closed,      color: 'border-t-green-700' },
+    { label: t.dashboard.total,       value: total,       color: 'border-t-cf-500' },
+    { label: t.dashboard.active,      value: active,      color: 'border-t-green-600' },
+    { label: t.dashboard.emergency,   value: emergency,   color: 'border-t-orange-500' },
+    { label: t.dashboard.crossDomain, value: crossDomain, color: 'border-t-pink-600' },
+    { label: t.dashboard.critical,    value: highRisk,    color: 'border-t-red-600' },
+    { label: t.dashboard.closed,      value: closed,      color: 'border-t-green-700' },
   ];
 
   return (
     <div className="space-y-4">
-      {/* Stat cards + risk */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
         {statCards.map(({ label, value, color }) => (
           <div
@@ -113,8 +120,6 @@ export default function Dashboard() {
             <div className="text-[10px] text-gray-400 mt-1">{label}</div>
           </div>
         ))}
-
-        {/* Risk card - expandable */}
         <div
           onClick={() => setRiskOpen(!riskOpen)}
           className="bg-white rounded border border-gray-200 border-t-2 border-t-yellow-600 p-3 cursor-pointer hover:bg-gray-50 transition-colors"
@@ -122,7 +127,7 @@ export default function Dashboard() {
           <div className="flex items-start justify-between">
             <div>
               <div className={`text-2xl font-semibold ${getRiskTextColor(avgRisk)}`}>{avgRisk}</div>
-              <div className="text-[10px] text-gray-400 mt-1">Avg. risk</div>
+              <div className="text-[10px] text-gray-400 mt-1">{t.dashboard.avgRisk}</div>
             </div>
             {riskOpen
               ? <ChevronUp size={12} className="text-gray-400 mt-1" />
@@ -135,10 +140,9 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Expanded risk detail */}
       {riskOpen && (
         <div className="bg-white rounded border border-gray-200 p-4">
-          <div className="text-xs font-semibold text-gray-700 mb-3">Risk score per change</div>
+          <div className="text-xs font-semibold text-gray-700 mb-3">{t.dashboard.riskScorePerChange}</div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
             {riskScores.map(({ id, score }) => (
               <div key={id}>
@@ -149,23 +153,22 @@ export default function Dashboard() {
                 <div className="w-full h-1.5 bg-gray-100 rounded-sm">
                   <div className={`h-full rounded-sm ${getRiskBarColor(score)}`} style={{ width: `${score}%` }} />
                 </div>
-                <div className="text-[9px] text-gray-400 mt-1">{getRiskLabel(score)}</div>
+                <div className="text-[9px] text-gray-400 mt-1">{riskLabelFn(score)}</div>
               </div>
             ))}
           </div>
           <div className="flex justify-between mt-3 pt-2 border-t border-gray-100">
-            <span className="text-[9px] text-green-700">LOW 0-20</span>
-            <span className="text-[9px] text-yellow-700">MEDIUM 21-45</span>
-            <span className="text-[9px] text-red-700">HIGH 46-70</span>
-            <span className="text-[9px] text-red-900">CRITICAL 71+</span>
+            <span className="text-[9px] text-green-700">{t.risk.low} 0-20</span>
+            <span className="text-[9px] text-yellow-700">{t.risk.medium} 21-45</span>
+            <span className="text-[9px] text-red-700">{t.risk.high} 46-70</span>
+            <span className="text-[9px] text-red-900">{t.risk.critical} 71+</span>
           </div>
         </div>
       )}
 
-      {/* Change list */}
       <div className="bg-white rounded border border-gray-200">
         <div className="px-4 py-3 border-b border-gray-200">
-          <span className="text-xs font-semibold text-gray-700">Change register</span>
+          <span className="text-xs font-semibold text-gray-700">{t.dashboard.changeRegister}</span>
         </div>
         <div>
           {changes.map((change) => {
@@ -175,25 +178,15 @@ export default function Dashboard() {
                 key={change.id}
                 className="px-4 py-2.5 flex items-center gap-3 hover:bg-gray-50 transition-colors cursor-pointer border-b border-gray-100 last:border-0"
               >
-                <span className="font-mono text-[11px] text-gray-400 w-14 shrink-0">
-                  {change.id}
-                </span>
+                <span className="font-mono text-[11px] text-gray-400 w-14 shrink-0">{change.id}</span>
                 <ScopeIcon size={13} className="text-gray-400 shrink-0" strokeWidth={1.8} />
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-medium text-gray-800 truncate">{change.title}</p>
                 </div>
-                <span
-                  className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded-sm ${
-                    riskColorMap[change.risk] || ''
-                  }`}
-                >
-                  {change.risk}
+                <span className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded-sm ${riskColorMap[change.risk] || ''}`}>
+                  {riskMap[change.risk] || change.risk}
                 </span>
-                <span
-                  className={`text-[9px] font-semibold px-2 py-0.5 rounded-sm whitespace-nowrap ${
-                    stageColorMap[change.status] || 'bg-gray-100 text-gray-600'
-                  }`}
-                >
+                <span className={`text-[9px] font-semibold px-2 py-0.5 rounded-sm whitespace-nowrap ${stageColorMap[change.status] || 'bg-gray-100 text-gray-600'}`}>
                   {change.status.replace(/-/g, ' ')}
                 </span>
               </div>
@@ -202,10 +195,9 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Lifecycle */}
       <div className="bg-white rounded border border-gray-200 p-4">
         <div className="text-[10px] text-gray-400 uppercase tracking-widest mb-3">
-          Universal governance lifecycle
+          {t.dashboard.lifecycleTitle}
         </div>
         <div className="flex items-center gap-1">
           {([
