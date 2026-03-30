@@ -178,6 +178,7 @@ export const changes: ChangeRecord[] = [
     review: null,
     affectedServices: ['SVC001', 'SVC004'],
     affectedProjects: ['PRJ001'],
+    affectedSystems: ['database', 'application'],
     relatedChanges: ['CF-0003'],
     aiSuggestions: [
       {
@@ -287,6 +288,7 @@ export const changes: ChangeRecord[] = [
     },
     affectedServices: ['SVC006'],
     affectedProjects: [],
+    affectedSystems: ['application', 'security'],
     relatedChanges: [],
     aiSuggestions: [],
     timeline: [
@@ -386,6 +388,7 @@ export const changes: ChangeRecord[] = [
     review: null, // Review in progress — this is the current state
     affectedServices: ['SVC004', 'SVC001', 'SVC002', 'SVC003'],
     affectedProjects: ['PRJ001', 'PRJ002'],
+    affectedSystems: ['database', 'security', 'infrastructure'],
     relatedChanges: ['CF-0001'],
     aiSuggestions: [
       {
@@ -466,6 +469,7 @@ export const changes: ChangeRecord[] = [
     review: null,
     affectedServices: [],
     affectedProjects: ['PRJ002'],
+    affectedSystems: ['application'],
     relatedChanges: [],
     aiSuggestions: [
       {
@@ -558,6 +562,7 @@ export const changes: ChangeRecord[] = [
     review: null,
     affectedServices: ['SVC002', 'SVC005', 'SVC007'],
     affectedProjects: ['PRJ003'],
+    affectedSystems: ['network', 'infrastructure'],
     relatedChanges: [],
     aiSuggestions: [
       {

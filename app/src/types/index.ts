@@ -60,6 +60,7 @@ export interface ChangeRecord {
   review: PostChangeReview | null;
   affectedServices: string[];
   affectedProjects: string[];
+  affectedSystems?: import('./routing').AffectedSystem[];
   relatedChanges: string[];
   aiSuggestions: AISuggestion[];
   timeline: TimelineEntry[];

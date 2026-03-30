@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useStore } from '../store';
 import { changes as seedChanges } from '../data/seed';
 import { calculateRiskScore } from '../engine/risk-scoring';
+import RoutingDecisionCard from '../components/routing/RoutingDecisionCard';
 import {
   AlertTriangle,
   CheckCircle2,
@@ -60,9 +61,10 @@ function getRiskTextColor(score: number): string {
 }
 
 export default function Dashboard() {
-  const { changes, setChanges, activeProfile } = useStore();
+  const { changes, setChanges, activeProfile, routingHistory } = useStore();
   const { t } = useI18n();
   const [riskOpen, setRiskOpen] = useState(false);
+  const [lifecycleOpen, setLifecycleOpen] = useState(false);
 
   useEffect(() => {
     if (changes.length === 0) {
@@ -166,6 +168,27 @@ export default function Dashboard() {
         </div>
       )}
 
+      {/* Recent Routing Decisions */}
+      {routingHistory.length > 0 && (
+        <div className="bg-white rounded border border-gray-200">
+          <div className="px-4 py-3 border-b border-gray-200">
+            <span className="text-xs font-semibold text-gray-700">{t.routing.recentDecisions}</span>
+          </div>
+          <div className="p-3 space-y-1.5">
+            {routingHistory.slice(-10).reverse().map((decision, i) => {
+              const change = changes.find(c => c.id === decision.changeId);
+              return (
+                <RoutingDecisionCard
+                  key={`${decision.changeId}-${i}`}
+                  decision={decision}
+                  changeTitle={change?.title}
+                />
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       <div className="bg-white rounded border border-gray-200">
         <div className="px-4 py-3 border-b border-gray-200">
           <span className="text-xs font-semibold text-gray-700">{t.dashboard.changeRegister}</span>
@@ -196,10 +219,17 @@ export default function Dashboard() {
       </div>
 
       <div className="bg-white rounded border border-gray-200 p-4">
-        <div className="text-[10px] text-gray-400 uppercase tracking-widest mb-3">
+        <div
+          className="text-[10px] text-gray-400 uppercase tracking-widest flex items-center justify-between cursor-pointer hover:text-gray-500 transition-colors"
+          onClick={() => setLifecycleOpen(!lifecycleOpen)}
+        >
           {t.dashboard.lifecycleTitle}
+          {lifecycleOpen
+            ? <ChevronUp size={12} className="text-gray-400" />
+            : <ChevronDown size={12} className="text-gray-400" />
+          }
         </div>
-        <div className="flex items-center gap-1">
+        {lifecycleOpen && <div className="flex items-center gap-1 mt-3">
           {([
             ['stageRequest', 'REQUEST', '#868e96'],
             ['stageClassify', 'CLASSIFY', '#ae3ec9'],
@@ -221,7 +251,7 @@ export default function Dashboard() {
               )}
             </div>
           ))}
-        </div>
+        </div>}
       </div>
     </div>
   );

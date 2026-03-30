@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Sidebar from './components/layout/Sidebar';
 import Header from './components/layout/Header';
@@ -10,6 +11,7 @@ import WorkflowViewer from './views/WorkflowViewer';
 import SettingsView from './views/SettingsView';
 import ComparisonView from './views/ComparisonView';
 import ScenarioSimulator from './views/ScenarioSimulator';
+import { useStore } from './store';
 
 const pageTitles: Record<string, string> = {
   '/':           'Dashboard',
@@ -25,6 +27,11 @@ const pageTitles: Record<string, string> = {
 export default function App() {
   const location = useLocation();
   const title = pageTitles[location.pathname] || 'ChangeFlow';
+  const loadPersistedData = useStore(s => s.loadPersistedData);
+
+  useEffect(() => {
+    loadPersistedData();
+  }, [loadPersistedData]);
 
   return (
     <div className="flex min-h-screen bg-gray-100 max-w-screen overflow-x-hidden">

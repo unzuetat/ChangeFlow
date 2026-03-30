@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useStore } from '../store';
 import { ChangeType, ChangeScope, RiskLevel, ChangeCategory } from '../types';
+import { AffectedSystem, AFFECTED_SYSTEMS, RoutingDecision } from '../types/routing';
+import { routeChange } from '../engine/routing';
 import ClassificationPanel from '../components/intelligence/ClassificationPanel';
+import RoutingResultPanel from '../components/routing/RoutingResultPanel';
+import { useI18n } from '../i18n';
 import {
   Send,
   AlertTriangle,
@@ -21,6 +25,7 @@ interface FormData {
   originType: 'project' | 'operational' | 'incident' | 'business-request';
   originReference: string;
   justification: string;
+  affectedSystems: AffectedSystem[];
 }
 
 const emptyForm: FormData = {
@@ -33,17 +38,69 @@ const emptyForm: FormData = {
   originType: 'project',
   originReference: '',
   justification: '',
+  affectedSystems: [],
 };
 
 export default function IntakeForm() {
-  const { activeProfile, changes, setChanges } = useStore();
+  const { activeProfile, changes, setChanges, routingRules, addRoutingDecision } = useStore();
   const vocab = activeProfile.vocabulary;
+  const { t } = useI18n();
   const [form, setForm] = useState<FormData>(emptyForm);
   const [submitted, setSubmitted] = useState(false);
+  const [liveRouting, setLiveRouting] = useState<RoutingDecision | null>(null);
+  const [routingError, setRoutingError] = useState(false);
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
 
   function update<K extends keyof FormData>(field: K, value: FormData[K]) {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
+
+  function toggleSystem(system: AffectedSystem) {
+    setForm((prev) => ({
+      ...prev,
+      affectedSystems: prev.affectedSystems.includes(system)
+        ? prev.affectedSystems.filter(s => s !== system)
+        : [...prev.affectedSystems, system],
+    }));
+  }
+
+  // Live routing: recalculate on form changes (debounced)
+  useEffect(() => {
+    if (!form.title.trim() || !form.description.trim()) {
+      setLiveRouting(null);
+      setRoutingError(false);
+      return;
+    }
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
+    debounceRef.current = setTimeout(() => {
+      try {
+        const decision = routeChange(
+          'PREVIEW',
+          {
+            scope: form.scope,
+            type: form.type,
+            category: form.category,
+            risk: form.risk,
+            originType: form.originType,
+            affectedSystems: form.affectedSystems,
+          },
+          routingRules,
+          activeProfile
+        );
+        setLiveRouting(decision);
+        setRoutingError(false);
+      } catch {
+        setLiveRouting(null);
+        setRoutingError(true);
+      }
+    }, 500);
+
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, [form.scope, form.type, form.category, form.risk, form.originType, form.affectedSystems, form.title, form.description, routingRules, activeProfile]);
 
   function handleSubmit() {
     if (!form.title.trim() || !form.description.trim()) return;
@@ -73,39 +130,48 @@ export default function IntakeForm() {
       review: null,
       affectedServices: [],
       affectedProjects: [],
+      affectedSystems: form.affectedSystems,
       relatedChanges: [],
       aiSuggestions: [],
       timeline: [
         {
-          date: today,
+          timestamp: new Date().toISOString(),
           stage: 'submitted' as const,
+          action: 'Change request submitted via intake form',
           actor: 'System',
-          description: 'Change request submitted via intake form',
+          details: null,
         },
       ],
       closedDate: null,
     };
 
     setChanges([...changes, newChange]);
+
+    // Persist the routing decision with the real change ID
+    if (liveRouting) {
+      addRoutingDecision({ ...liveRouting, changeId: newId });
+    }
+
     setSubmitted(true);
   }
 
   function handleReset() {
     setForm(emptyForm);
     setSubmitted(false);
+    setLiveRouting(null);
+    setRoutingError(false);
   }
 
   if (submitted) {
+    const submittedId = `CF-${String(changes.length).padStart(3, '0')}`;
     return (
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto space-y-3">
         <div className="bg-white rounded border border-gray-200 p-8 text-center">
           <CheckCircle2 size={40} className="text-green-600 mx-auto mb-3" strokeWidth={1.5} />
           <h3 className="text-base font-semibold text-gray-800 mb-2">Change request submitted</h3>
           <p className="text-xs text-gray-500 mb-1">
-            <span className="font-mono font-semibold text-cf-800">
-              CF-{String(changes.length).padStart(3, '0')}
-            </span>{' '}
-            — {form.title}
+            <span className="font-mono font-semibold text-cf-800">{submittedId}</span>
+            {' — '}{form.title}
           </p>
           <p className="text-[10px] text-gray-400 mb-5">
             Next stage: <span className="font-semibold">{vocab.stageClassify}</span>
@@ -117,6 +183,11 @@ export default function IntakeForm() {
             Submit another
           </button>
         </div>
+
+        {/* Show final routing decision after submit */}
+        {liveRouting && (
+          <RoutingResultPanel decision={{ ...liveRouting, changeId: submittedId }} />
+        )}
       </div>
     );
   }
@@ -261,6 +332,44 @@ export default function IntakeForm() {
           </div>
         </div>
 
+        {/* Affected Systems */}
+        <div>
+          <label className="block text-[10px] font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+            {t.routing.affectedSystems}
+          </label>
+          <div className="grid grid-cols-4 gap-1.5">
+            {AFFECTED_SYSTEMS.map((system) => (
+              <label
+                key={system}
+                className={`flex items-center gap-1.5 px-2 py-1.5 rounded border cursor-pointer text-[10px] transition-colors ${
+                  form.affectedSystems.includes(system)
+                    ? 'bg-cf-50 border-cf-300 text-cf-800'
+                    : 'bg-white border-gray-200 text-gray-500 hover:bg-gray-50'
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  checked={form.affectedSystems.includes(system)}
+                  onChange={() => toggleSystem(system)}
+                  className="sr-only"
+                />
+                <span className={`w-3 h-3 rounded border flex items-center justify-center flex-shrink-0 ${
+                  form.affectedSystems.includes(system)
+                    ? 'bg-cf-500 border-cf-500'
+                    : 'border-gray-300'
+                }`}>
+                  {form.affectedSystems.includes(system) && (
+                    <svg className="w-2 h-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
+                </span>
+                {t.routing.systemLabels[system]}
+              </label>
+            ))}
+          </div>
+        </div>
+
         {/* Risk warning */}
         {(form.risk === 'high' || form.risk === 'critical') && (
           <div className="bg-red-50 border border-red-200 rounded px-3 py-2 flex items-start gap-2">
@@ -315,6 +424,15 @@ export default function IntakeForm() {
             className="w-full px-3 py-1.5 text-xs border border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-cf-300 resize-none"
           />
         </div>
+
+        {/* Live Routing Result */}
+        {liveRouting && <RoutingResultPanel decision={liveRouting} />}
+
+        {routingError && (
+          <div className="bg-red-50 border border-red-200 rounded px-3 py-2">
+            <p className="text-[10px] text-red-700">{t.routing.unableToCalculate}</p>
+          </div>
+        )}
 
         {/* Submit */}
         <div className="flex justify-end pt-2">
