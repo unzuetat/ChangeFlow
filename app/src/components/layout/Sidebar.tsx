@@ -16,11 +16,12 @@ import { useI18n } from '../../i18n';
 
 
 
+
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
 const { t } = useI18n();
 
-  const navItems = [
+const navItems = [
     { to: '/',           label: t.nav.dashboard,          icon: LayoutDashboard },
     { to: '/changes',    label: t.nav.changeRegister,     icon: List },
     { to: '/intake',     label: t.nav.newRequest,         icon: FilePlus },
