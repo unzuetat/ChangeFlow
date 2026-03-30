@@ -92,12 +92,12 @@ export default function Dashboard() {
     : 0;
 
   const statCards = [
-    { label: 'Total',       value: total,       color: 'border-t-cf-500' },
-    { label: 'Active',      value: active,      color: 'border-t-green-600' },
-    { label: 'Emergency',   value: emergency,   color: 'border-t-orange-500' },
-    { label: 'Cross-domain', value: crossDomain, color: 'border-t-pink-600' },
-    { label: 'Critical',    value: highRisk,    color: 'border-t-red-600' },
-    { label: 'Closed',      value: closed,      color: 'border-t-green-700' },
+    { label: {t.dashboard.total},       value: total,       color: 'border-t-cf-500' },
+    { label: {t.dashboard.active},      value: active,      color: 'border-t-green-600' },
+    { label: {t.dashboard.emergency},   value: emergency,   color: 'border-t-orange-500' },
+    { label: {t.dashboard.crossDomain}, value: crossDomain, color: 'border-t-pink-600' },
+    { label: {t.dashboard.critical},    value: highRisk,    color: 'border-t-red-600' },
+    { label: {t.dashboard.closed},      value: closed,      color: 'border-t-green-700' },
   ];
 
   return (
